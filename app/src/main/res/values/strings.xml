@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">WordMatchApp</string>
+    <string name="match_words">Word Match</string>
+    <string name="game_rules">WELCOME TO WORD\'S MATCHER GAME</string>
+    <string name="quit_app">Quit</string>
+    <string name="press_to_start_game">Choose if falling word is the correct translation or a wrong translation of left side word. Click ok to start the game!</string>
+    <string name="wrong">Wrong</string>
+    <string name="correct">Correct</string>
+    <string name="score">Score : </string>
+    <string name="restart">Play Again</string>
+    <string name="score_history">Score History</string>
+    <string name="current_score_is">Current Score is</string>
+    <string name="score_details">Score Details</string>
+</resources>
