@@ -9,6 +9,10 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
+/**
+ * Fragment base class.
+ * Helper methods included for sub classes.
+ */
 abstract class BaseFragment : Fragment(), AlertCallBack{
 
     private var mCallBackAlertDialog: AlertDialog? = null

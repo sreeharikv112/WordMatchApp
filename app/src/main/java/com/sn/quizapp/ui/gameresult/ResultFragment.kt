@@ -26,9 +26,10 @@ import kotlinx.android.synthetic.main.fragment_result.scoreRecyclerView as recyc
 import kotlinx.android.synthetic.main.fragment_result.viewKonfetti as konfettiView
 
 
-
 /**
- * Fragment for score details view.
+ * Fragment for score result details view.
+ * Populates views with data from Shared View Model.
+ * Navigates user click to game screen or exists app.
  *
  */
 class ResultFragment : BaseFragment(), View.OnClickListener {
@@ -41,9 +42,11 @@ class ResultFragment : BaseFragment(), View.OnClickListener {
 
     lateinit var mViewModel: SharedVM
     lateinit var mRecyclerAdapter: GenericAdapter<ScoreDetails>
-    override fun getLayoutId() = R.layout.fragment_result
-    val mAppLog :  AppLogger by inject()
+    val mAppLog: AppLogger by inject()
     val TAG = ResultFragment::class.java.simpleName
+
+
+    override fun getLayoutId() = R.layout.fragment_result
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,10 +72,10 @@ class ResultFragment : BaseFragment(), View.OnClickListener {
         recyclerview.adapter = mRecyclerAdapter
 
         txt_marks.text = getString(R.string.current_score_is) + " ${mViewModel.mCurrentScore.value}"
-        var listItems : ArrayList<ScoreDetails>
-        if(null == mViewModel.mListOfScores.value){
+        var listItems: ArrayList<ScoreDetails>
+        if (null == mViewModel.mListOfScores.value) {
             listItems = arrayListOf()
-        }else {
+        } else {
             listItems = mViewModel.mListOfScores.value as ArrayList<ScoreDetails>
         }
         mRecyclerAdapter.setItems(listItems)
@@ -90,9 +93,8 @@ class ResultFragment : BaseFragment(), View.OnClickListener {
                 .setPosition(-50f, konfettiView.width + 50f, -50f, -50f)
                 .streamFor(300, 5000L)
         } catch (e: Exception) {
-            mAppLog.logE(TAG,"Exception in konfettiView = ${konfettiView}")
+            mAppLog.logE(TAG, "Exception in konfettiView = $e")
         }
-
     }
 
     override fun onClick(v: View?) {

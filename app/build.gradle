@@ -68,6 +68,7 @@ dependencies {
     implementation "org.koin:koin-core:$koin_version"
     // Koin Android Scope features
     implementation "org.koin:koin-android-scope:$koin_version"
+    testImplementation "org.koin:koin-test:$koin_version"
 
     //Json
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_fasterxml_version"

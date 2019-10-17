@@ -6,6 +6,9 @@ import com.sn.quizapp.ui.landing.MainFragmentVM
 import com.sn.quizapp.utilities.AppUtils
 import com.sn.quizapp.utilities.FileReaderUtils
 
+/**
+ * Factory class for view models
+ */
 class ViewModelFactoryBase (val mParams: Array<Any>?) :
     ViewModel(), ViewModelProvider.Factory {
 
