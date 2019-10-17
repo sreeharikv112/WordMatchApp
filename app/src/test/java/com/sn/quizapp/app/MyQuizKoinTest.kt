@@ -44,7 +44,6 @@ class MyQuizKoinTest : KoinTest {
 
         assertNotNull(fileUtilityTestObj.convertStringToJSON(getTestJson()))
 
-        assertNotNull(fileUtilityTestObj.readFileContent(R.raw.input_data))
     }
 
     //Helper Methods-----------------

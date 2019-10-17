@@ -40,7 +40,7 @@ class MainFragmentVM(appUtils: AppUtils, fileReaderUtils: FileReaderUtils) : Vie
     init {
         resetAllValues()
         mTotalQuestionsCount = 10
-        val fileContent = fileReaderUtils.readFileContent(R.raw.input_data)
+        val fileContent = fileReaderUtils.readFileContent("input_data.json")
         mWordsCollection = fileReaderUtils.convertStringToJSON(fileContent)
         mQuestionCount.value = 0
     }

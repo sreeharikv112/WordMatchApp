@@ -19,12 +19,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
     }
+
     testOptions {
         unitTests.includeAndroidResources = true
         unitTests.returnDefaultValues = true
     }
+
 }
+
+
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -73,7 +79,4 @@ dependencies {
     //Json
     implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_fasterxml_version"
     implementation "com.google.code.gson:gson:$gson_version"
-
-
-
 }
