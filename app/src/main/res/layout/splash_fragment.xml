@@ -12,7 +12,7 @@
         android:textStyle="bold"
         android:textSize="@dimen/word_size_40"
         android:shadowColor="@color/shadow_color"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorPrimaryDark"
         android:shadowDx="22"
         android:shadowDy="22"
         android:shadowRadius="15"
