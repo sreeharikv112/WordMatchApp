@@ -31,41 +31,46 @@ import kotlinx.android.synthetic.main.fragment_main.total_score as txt_total_sco
 
 
 /**
- * A [Fragment] subclass for game view.
+ * Landing fragment view.
+ * Shows alert dialog for user with info.
+ * upon clicking shows multiple questions with possible answers animated.
+ * Navigates to detail screen once completed.
  */
-class MainFragment : BaseFragment(),View.OnClickListener {
+class MainFragment : BaseFragment(), View.OnClickListener {
 
-    companion object{
+    companion object {
         fun getFragment() = MainFragment()
     }
 
     //Inject apputils
-    val mAppUtils : AppUtils by inject()
+    val mAppUtils: AppUtils by inject()
     //Inject file utils
-    val mFileUtils : FileReaderUtils by inject()
+    val mFileUtils: FileReaderUtils by inject()
     //Logger
-    val mLogger : AppLogger by inject()
+    val mLogger: AppLogger by inject()
     //Target View model
-    lateinit var mViewModel  : MainFragmentVM
+    lateinit var mViewModel: MainFragmentVM
     //Common VM
     lateinit var mCommonViewModel: SharedVM
     //Tag required for logging
     val TAG = MainFragment::class.java.simpleName
-    //layout id for fragment
-    override fun getLayoutId() = R.layout.fragment_main
     //correct answer to verify
     var mCorrectAnswer = false
     //record user click first time
     var mUserDidClickedOption = false
 
 
+    //layout id for fragment
+    override fun getLayoutId() = R.layout.fragment_main
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val array = arrayOf(mAppUtils,mFileUtils)
-        this.mViewModel = ViewModelProviders.of(this, ViewModelFactoryBase(array)).
-            get(MainFragmentVM::class.java)
+        val array = arrayOf(mAppUtils, mFileUtils)
+        this.mViewModel =
+            ViewModelProviders.of(this, ViewModelFactoryBase(array)).get(MainFragmentVM::class.java)
         this.mCommonViewModel = activity?.run {
-            ViewModelProviders.of(this)[SharedVM::class.java] }!!
+            ViewModelProviders.of(this)[SharedVM::class.java]
+        }!!
         this.mViewModel.mUIModelUpdated.observeForever(this.updateUIModelObserver)
         this.mViewModel.mShouldNavigateToResultScreen.observeForever(this.moveToResultScreenObserver)
 
@@ -76,7 +81,8 @@ class MainFragment : BaseFragment(),View.OnClickListener {
         activity!!.title = getString(R.string.match_words)
     }
 
-    private fun animateUI(){
+    //Start showing question answer animations
+    private fun animateUI() {
         val animation1 = AnimationUtils.loadAnimation(activity, R.anim.move_linear)
         txt_answer.startAnimation(animation1)
         animation1.setAnimationListener(object : Animation.AnimationListener {
@@ -89,7 +95,7 @@ class MainFragment : BaseFragment(),View.OnClickListener {
     }
 
     //get next set of questions from VM
-    fun requestNextQuestion(){
+    fun requestNextQuestion() {
         this.mViewModel.populateDataForUser()
     }
 
@@ -106,17 +112,20 @@ class MainFragment : BaseFragment(),View.OnClickListener {
             progress_bar.progress = it.questionCount
             animateUI()
         } catch (e: Exception) {
-            mLogger.logE(TAG,"exception in updateUIModelObserver = $e")
+            mLogger.logE(TAG, "exception in updateUIModelObserver = $e")
         }
     }
 
     //Observer for completion of questions
     private val moveToResultScreenObserver = Observer<Boolean> {
-        if(it == true){
+        if (it == true) {
             var listItem = this.mCommonViewModel.mListOfScores.value
 
-            val scoreDetails = ScoreDetails(this.mCommonViewModel.mCurrentScore.value!!,mAppUtils.getCurrentDateTimeFormatted())
-            if(listItem == null)
+            val scoreDetails = ScoreDetails(
+                this.mCommonViewModel.mCurrentScore.value!!,
+                mAppUtils.getCurrentDateTimeFormatted()
+            )
+            if (listItem == null)
                 listItem = ArrayList<ScoreDetails>()
             listItem.add(scoreDetails)
             this.mCommonViewModel.mListOfScores.value = listItem
@@ -127,18 +136,16 @@ class MainFragment : BaseFragment(),View.OnClickListener {
         }
     }
 
-    /**
-     * Increase score , for correct answer
-     */
-
-    private fun incrementScore(){
+    //Increase score , for correct answer
+    private fun incrementScore() {
         this.mViewModel.mTotalScore.value = this.mViewModel.mTotalScore.value!! + 10
         this.mCommonViewModel.mCurrentScore.value = this.mViewModel.mTotalScore.value
-        txt_total_score.text = getString(R.string.score)+ " "+"${this.mViewModel.mTotalScore.value}"
+        txt_total_score.text =
+            getString(R.string.score) + " " + "${this.mViewModel.mTotalScore.value}"
     }
 
-
-    private fun showAlertDialog(){
+    //Show alert dialog
+    private fun showAlertDialog() {
         showAlert(
             R.string.press_to_start_game, android.R.string.ok, R.string.quit_app,
             DialogInterface.OnClickListener { dialog, which ->
@@ -152,16 +159,16 @@ class MainFragment : BaseFragment(),View.OnClickListener {
 
     //Handle click events
     override fun onClick(v: View?) {
-        if(v!!.id == R.id.btnCorrect){
-            if(!mUserDidClickedOption){
+        if (v!!.id == R.id.btnCorrect) {
+            if (!mUserDidClickedOption) {
                 mUserDidClickedOption = true
-                if(mCorrectAnswer){
+                if (mCorrectAnswer) {
                     incrementScore()
                 }
                 requestNextQuestion()
             }
-        }else if(v!!.id == R.id.btnWrong){
-            if(!mUserDidClickedOption) {
+        } else if (v!!.id == R.id.btnWrong) {
+            if (!mUserDidClickedOption) {
                 mUserDidClickedOption = true
                 if (!mCorrectAnswer) {
                     incrementScore()

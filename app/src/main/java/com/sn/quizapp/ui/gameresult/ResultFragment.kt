@@ -39,10 +39,13 @@ class ResultFragment : BaseFragment(), View.OnClickListener {
         fun getFragment() = ResultFragment()
 
     }
-
+    //Shared view model
     lateinit var mViewModel: SharedVM
+    //Recycler adapter for user list of scores
     lateinit var mRecyclerAdapter: GenericAdapter<ScoreDetails>
+    //App logger
     val mAppLog: AppLogger by inject()
+    //Logger tag
     val TAG = ResultFragment::class.java.simpleName
 
 
@@ -83,7 +86,10 @@ class ResultFragment : BaseFragment(), View.OnClickListener {
 
         try {
             konfettiView.build()
-                .addColors(Color.RED, Color.GREEN, Color.BLUE)
+                .addColors(
+                    resources.getColor(R.color.ColorOne),
+                    resources.getColor(R.color.ColorTwo),
+                    resources.getColor(R.color.ColorThree))
                 .setDirection(0.0, 359.0)
                 .setSpeed(1f, 5f)
                 .setFadeOutEnabled(true)
